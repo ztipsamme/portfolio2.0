@@ -8,7 +8,7 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `cms-portfolio`,
+    title: `portfolio`,
     siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [
