@@ -137,3 +137,53 @@ body {
 .gatsby-image-index {
   z-index: -1;
 }
+
+.slider-container {
+  @apply flex w-full aspect-8/5 relative;
+}
+
+.slider-track-container {
+  @apply aspect-8/5;
+}
+
+.slider-track {
+  @apply relative;
+}
+
+.slider-track div:first-child {
+  z-index: 1;
+  @apply w-full;
+}
+
+.slider-item {
+  @apply absolute left-0 top-0 block;
+}
+
+.slider-controlls {
+  @apply absolute z-10 w-full h-full;
+  & button {
+    @apply w-1/2 h-full opacity-0;
+    &:hover {
+      @apply opacity-100 from-spring/50 to-transparent  dark:from-pine/50;
+    }
+    .icon {
+      @apply absolute top-1/2 translate-y-[-50%];
+    }
+    &:first-child {
+      .icon {
+        @apply left-0;
+      }
+      &:hover {
+        @apply bg-gradient-to-r;
+      }
+    }
+    &:last-child {
+      .icon {
+        @apply right-0;
+      }
+      &:hover {
+        @apply bg-gradient-to-l;
+      }
+    }
+  }
+}

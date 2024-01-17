@@ -92,7 +92,7 @@ const About = ({ data }) => {
                 documentToReactComponents(JSON.parse(i.body.raw))[0].props
                   .children
               }
-              img={i.media[0]}
+              media={i.media[0]}
               alt={i.media[0].description}
             />
           </Fragment>
@@ -118,8 +118,8 @@ const About = ({ data }) => {
             <Card
               align={'alternating'}
               title={i.title}
-              body={'documentToReactComponents(JSON.parse(i.description.raw))'}
-              img={''}
+              body={documentToReactComponents(JSON.parse(i.description.raw))}
+              media={''}
             />
           </Fragment>
         ))}
@@ -133,8 +133,8 @@ const About = ({ data }) => {
             <Card
               align={'alternating'}
               title={i.title}
-              body={'documentToReactComponents(JSON.parse(i.description.raw))'}
-              img={''}
+              body={documentToReactComponents(JSON.parse(i.description.raw))}
+              media={''}
             />
           </Fragment>
         ))}

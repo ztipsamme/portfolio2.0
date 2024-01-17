@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Section } from '../components/UI'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Card, Layout, MetaData } from '../components'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 const Projects = ({ data }) => {
   const [selectedCategorys, setSelectedCategorys] = useState([])
@@ -75,37 +76,43 @@ const Projects = ({ data }) => {
     categoryInUse()
   }, [])
 
+  console.log(selectedCategorys)
+
   return (
     <Layout>
       <Section id="projects" className="content">
         <h2 className="section-header text-orange">{data.page.title}</h2>
         <h3 className="text-h1 mb-8">{data.page.mainSection.title}</h3>
         <nav className="mb-9">
-          <ul>
+          <form>
             {categories.map((i) => (
-              <li className="inline" key={i.id}>
-                <button
-                  className={`btn btn-xs border-pine dark:border-peach ${
-                    selectedCategorys.find((x) => x === i.contentful_id)
-                      ? 'bg-pine text-white dark:bg-peach dark:text-pine'
-                      : 'text-pine dark:text-peach'
-                  } mb-1 mr-1`}
-                  onClick={() => handleFilter(i.contentful_id)}
-                >
-                  {i.title}
-                </button>
-              </li>
+              <label
+                key={i.id}
+                className={`mb-1 mr-1 btn btn-xs border-pine dark:border-peach inline-block ${
+                  selectedCategorys.find((x) => x === i.contentful_id)
+                    ? 'bg-pine text-white dark:bg-peach dark:text-pine'
+                    : 'text-pine dark:text-peach'
+                }`}
+              >
+                {i.title}
+                <input
+                  type="checkbox"
+                  value={i}
+                  onChange={() => handleFilter(i.contentful_id)}
+                  className="hidden"
+                />
+              </label>
             ))}
-          </ul>
+          </form>
         </nav>
-        <ul className="">
+        <ul>
           {(selectedCategorys <= 0 ? projects : filterdProjects).map((i) => (
             <li key={i.id}>
               <Card
                 align={'left'}
                 title={i.title}
                 body={documentToReactComponents(JSON.parse(i.body.raw))}
-                img={i.media && i.media[0]}
+                media={i.media && i.media}
                 alt={i.media[0].description}
                 links={[
                   { title: i.gitHubLinkTitle, to: i.gitHubLink },

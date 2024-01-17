@@ -5,7 +5,16 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Card, Layout, MetaData } from '../components'
 
 const Project = ({ data }) => {
-  const project = data.project
+  const {
+    id,
+    title,
+    body,
+    media,
+    gitHubLinkTitle,
+    gitHubLink,
+    demoLinkTitle,
+    demoLink,
+  } = data.project
 
   return (
     <Layout>
@@ -14,15 +23,15 @@ const Project = ({ data }) => {
         <h3 className="text-h1 mb-8">Selected projects</h3>
         <ul className="">
           <Card
-            id={project.id}
+            id={id}
             align={'left'}
-            title={project.title}
-            body={documentToReactComponents(JSON.parse(project.body.raw))}
-            img={project.media && project.media[0]}
-            alt={project.media[0].description}
+            title={title}
+            body={documentToReactComponents(JSON.parse(body.raw))}
+            media={media && media}
+            alt={media[0].description}
             links={[
-              { title: project.gitHubLinkTitle, to: project.gitHubLink },
-              { title: project.demoLinkTitle, to: project.demoLink },
+              { title: gitHubLinkTitle, to: gitHubLink },
+              { title: demoLinkTitle, to: demoLink },
             ]}
           />
         </ul>
