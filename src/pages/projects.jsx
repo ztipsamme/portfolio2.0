@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Section } from '../components/UI'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Card, Layout } from '../components'
+import { Card, Layout, MetaData } from '../components'
 
 const Projects = ({ data }) => {
   const [selectedCategorys, setSelectedCategorys] = useState([])
@@ -85,10 +85,10 @@ const Projects = ({ data }) => {
             {categories.map((i) => (
               <li className="inline" key={i.id}>
                 <button
-                  className={`btn btn-xs ${
+                  className={`btn btn-xs border-pine dark:border-peach ${
                     selectedCategorys.find((x) => x === i.contentful_id)
-                      ? 'btn-peach'
-                      : 'btn-outline-peach'
+                      ? 'bg-pine text-white dark:bg-peach dark:text-pine'
+                      : 'text-pine dark:text-peach'
                   } mb-1 mr-1`}
                   onClick={() => handleFilter(i.contentful_id)}
                 >
@@ -105,11 +105,12 @@ const Projects = ({ data }) => {
                 align={'left'}
                 title={i.title}
                 body={documentToReactComponents(JSON.parse(i.body.raw))}
-                img={i.media && i.media[0].file.url}
+                img={i.media && i.media[0]}
+                alt={i.media[0].description}
                 links={[
                   { title: i.gitHubLinkTitle, to: i.gitHubLink },
                   { title: i.demoLinkTitle, to: i.demoLink },
-                  { title: 'i.readMoreTitle', to: i.slug },
+                  { title: 'Läs mer', to: i.slug },
                 ]}
               />
             </li>
@@ -130,6 +131,10 @@ export const query = graphql`
     ) {
       id
       title
+      metaData {
+        title
+        description
+      }
       mainSection {
         ... on ContentfulCards {
           title
@@ -149,9 +154,8 @@ export const query = graphql`
         gitHubLink
         gitHubLinkTitle
         media {
-          file {
-            url
-          }
+          gatsbyImageData
+          description
         }
         categories {
           id
@@ -162,6 +166,8 @@ export const query = graphql`
     }
   }
 `
+
 export const Head = ({ data }) => {
-  return <title>{data.page.title}</title>
+  const metaData = data.page.metaData
+  return <MetaData title={metaData.title} description={metaData.description} />
 }

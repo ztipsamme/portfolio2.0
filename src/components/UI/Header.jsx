@@ -42,7 +42,7 @@ const Header = () => {
               key={i.id}
               className={`nav-link ${
                 index === contentfulMenuComponent.menuItems.length - 1 &&
-                'btn btn-orange'
+                'btn border-pine text-pine dark:border-white dark:text-white'
               }`}
             >
               <Link to={i.href}>{i.title}</Link>

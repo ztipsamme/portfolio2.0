@@ -1,16 +1,15 @@
 import React from 'react'
-import { Layout, Section } from '../components'
+import { Layout, MetaData, Section } from '../components'
 import { Link, graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
 const NotFoundPage = ({ data }) => {
-  const { mainSection } = data.contentfulPage
+  const { mainSection } = data.page
   const errorMessage = documentToReactComponents(
     JSON.parse(mainSection.body.raw)
   )[0].props.children[0]
   const backToHome = mainSection.body.references[0]
 
-  console.log(mainSection.body.references)
   return (
     <Layout>
       <Section className="content">
@@ -33,11 +32,15 @@ export default NotFoundPage
 
 export const query = graphql`
   query {
-    contentfulPage(
+    page: contentfulPage(
       contentful_id: { eq: "4XDWCwfYeCP0lxKwkL5PRt" }
       node_locale: { eq: "sv-SE" }
     ) {
       title
+      metaData {
+        title
+        description
+      }
       mainSection {
         ... on ContentfulContent {
           id
@@ -56,5 +59,6 @@ export const query = graphql`
 `
 
 export const Head = ({ data }) => {
-  return <title>{data.contentfulPage.title}</title>
+  const metaData = data.page.metaData
+  return <MetaData title={metaData.title} description={metaData.description} />
 }

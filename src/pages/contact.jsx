@@ -5,12 +5,13 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Layout, Section } from '../components'
+import { Layout, MetaData, Section } from '../components'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 const header = (data, index) => {
-  return documentToReactComponents(
-    JSON.parse(data.contentfulPage.mainSection.body.raw)
-  )[index].props.children[0]
+  return documentToReactComponents(JSON.parse(data.page.mainSection.body.raw))[
+    index
+  ].props.children[0]
 }
 
 const ListItem = ({ href, title, icon }) => {
@@ -25,21 +26,19 @@ const ListItem = ({ href, title, icon }) => {
 }
 
 const Contact = ({ data }) => {
-  const { topSection, mainSection } = data.contentfulPage
+  const { topSection, mainSection } = data.page
   const links = mainSection.body.references
 
   return (
     <Layout>
-      <img
+      <GatsbyImage
         id="desk-setup-img"
-        src={topSection[0].media[0].file.url}
+        image={getImage(topSection[0].media[0])}
         alt=""
-        className="h-96 w-full object-cover"
+        className="h-96 w-full object-cover gatsby-image-index"
       />
       <Section id="contact" className="content">
-        <h2 className="section-header text-orange">
-          {data.contentfulPage.title}
-        </h2>
+        <h2 className="section-header text-orange">{data.page.title}</h2>
         <h3 className="text-h1">{header(data, 0)}</h3>
         <address className="not-italic	">
           <ul className="text-h2">
@@ -81,12 +80,16 @@ export default Contact
 
 export const query = graphql`
   query ContactPage {
-    contentfulPage(
+    page: contentfulPage(
       contentful_id: { eq: "5mVs0235aMUkrvPIQVSftn" }
       node_locale: { eq: "sv-SE" }
     ) {
       id
       title
+      metaData {
+        title
+        description
+      }
       mainSection {
         ... on ContentfulContent {
           id
@@ -106,9 +109,7 @@ export const query = graphql`
         ... on ContentfulContent {
           id
           media {
-            file {
-              url
-            }
+            gatsbyImageData
           }
         }
       }
@@ -117,5 +118,6 @@ export const query = graphql`
 `
 
 export const Head = ({ data }) => {
-  return <title>{data.contentfulPage.title}</title>
+  const metaData = data.page.metaData
+  return <MetaData title={metaData.title} description={metaData.description} />
 }

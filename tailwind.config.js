@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       aspectRatio: {
         '4/3': '4 / 3',
+        '8/5': '8 / 5',
       },
       colors: {
         black: '#4D4D4D',

@@ -14,7 +14,7 @@ body {
   }
 
   .card-img {
-    @apply object-cover rounded-3xl md:col-start-1 md:row-start-1 md:row-span-2 lg:row-span-3;
+    @apply object-cover rounded-3xl;
   }
 
   .card-btns {
@@ -132,4 +132,8 @@ body {
   > *:nth-last-child(-n + 2) {
     @apply md:col-start-half md:col-span-3;
   }
+}
+
+.gatsby-image-index {
+  z-index: -1;
 }

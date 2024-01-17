@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Card, Layout, Section } from '../components'
+import { Card, Layout, MetaData, Section } from '../components'
 import {
   faCss3Alt,
   faFigma,
@@ -26,7 +26,7 @@ const Stack = (props) => {
     { label: 'CSS', icon: faCss3Alt },
     { label: 'Sass', icon: faSass },
     { label: 'JavaScript', icon: faSquareJs },
-    { label: 'TypeScript', icon: faSquareJs },
+    { label: 'TypeScript', svg: './images/typescript.svg' },
     { label: 'Vue.js', icon: faVuejs },
     { label: 'React.js', icon: faReact },
     { label: 'WordPress', icon: faWordpress },
@@ -47,6 +47,7 @@ const Stack = (props) => {
   const foundTool = stack.find(
     (tool) => tool.label.toLocaleLowerCase() === string.toLocaleLowerCase()
   )
+  const isSVG = 'svg' in foundTool
 
   return (
     <li key={props.index} title={string} className="cursor-help">
@@ -55,7 +56,15 @@ const Stack = (props) => {
       ) : (
         <>
           <span className="hidden">{string}</span>
-          <FontAwesomeIcon icon={foundTool.icon} aria-hidden className="icon" />
+          {isSVG ? (
+            <img src={foundTool.svg} alt={foundTool.label + ' icon'} />
+          ) : (
+            <FontAwesomeIcon
+              icon={foundTool.icon}
+              aria-hidden
+              className="icon"
+            />
+          )}
         </>
       )}
     </li>
@@ -63,7 +72,7 @@ const Stack = (props) => {
 }
 
 const About = ({ data }) => {
-  const { mainSection, extraSection } = data.contentfulPage
+  const { mainSection, extraSection } = data.page
   const stack = documentToReactComponents(
     JSON.parse(extraSection[0].body.raw)
   )[1].props.children
@@ -72,16 +81,19 @@ const About = ({ data }) => {
     <Layout>
       <Section className="content bg-peach dark:bg-beige dark:text-black">
         <h1 className="section-header text-white dark:text-orange">
-          {data.contentfulPage.title}
+          {data.page.title}
         </h1>
         {mainSection.items.map((i) => (
           <Fragment key={i.id}>
             <Card
-              id={i.id}
               align={'alternating'}
               title={i.title}
-              body={documentToReactComponents(JSON.parse(i.body.raw))}
-              img={i.media[0].file.url}
+              body={
+                documentToReactComponents(JSON.parse(i.body.raw))[0].props
+                  .children
+              }
+              img={i.media[0]}
+              alt={i.media[0].description}
             />
           </Fragment>
         ))}
@@ -91,7 +103,9 @@ const About = ({ data }) => {
         <h3 className="text-h1 bleed mb-4">{extraSection[0].subheading}</h3>
         <ul className="bleed flex flex-wrap gap-4">
           {stack.map((tool, index) => (
-            <Stack li={tool} index={index} />
+            <Fragment key={index}>
+              <Stack li={tool} index={index} />
+            </Fragment>
           ))}
         </ul>
       </Section>
@@ -102,10 +116,9 @@ const About = ({ data }) => {
         {extraSection[1].items.map((i) => (
           <Fragment key={i.id}>
             <Card
-              id={i.id}
               align={'alternating'}
               title={i.title}
-              body={documentToReactComponents(JSON.parse(i.description.raw))}
+              body={'documentToReactComponents(JSON.parse(i.description.raw))'}
               img={''}
             />
           </Fragment>
@@ -118,10 +131,9 @@ const About = ({ data }) => {
         {extraSection[2].items.map((i) => (
           <Fragment key={i.id}>
             <Card
-              id={i.id}
               align={'alternating'}
               title={i.title}
-              body={documentToReactComponents(JSON.parse(i.description.raw))}
+              body={'documentToReactComponents(JSON.parse(i.description.raw))'}
               img={''}
             />
           </Fragment>
@@ -135,12 +147,16 @@ export default About
 
 export const query = graphql`
   query AboutPage {
-    contentfulPage(
+    page: contentfulPage(
       contentful_id: { eq: "5PpAzwG6zPGcMGi9de7pij" }
       node_locale: { eq: "sv-SE" }
     ) {
       id
       title
+      metaData {
+        title
+        description
+      }
       mainSection {
         ... on ContentfulCards {
           id
@@ -152,9 +168,8 @@ export const query = graphql`
                 raw
               }
               media {
-                file {
-                  url
-                }
+                gatsbyImageData
+                description
               }
               title
             }
@@ -168,9 +183,8 @@ export const query = graphql`
             raw
           }
           media {
-            file {
-              url
-            }
+            gatsbyImageData
+            description
           }
           title
           subheading
@@ -179,6 +193,7 @@ export const query = graphql`
           id
           title
           items {
+            id
             title
             start
             end
@@ -193,5 +208,6 @@ export const query = graphql`
 `
 
 export const Head = ({ data }) => {
-  return <title>{data.contentfulPage.title}</title>
+  const metaData = data.page.metaData
+  return <MetaData title={metaData.title} description={metaData.description} />
 }

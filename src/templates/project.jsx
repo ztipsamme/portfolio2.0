@@ -2,10 +2,10 @@ import React from 'react'
 import { Section } from '../components/UI'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Card, Layout } from '../components'
+import { Card, Layout, MetaData } from '../components'
 
 const Project = ({ data }) => {
-  const project = data.contentfulProject
+  const project = data.project
 
   return (
     <Layout>
@@ -18,7 +18,8 @@ const Project = ({ data }) => {
             align={'left'}
             title={project.title}
             body={documentToReactComponents(JSON.parse(project.body.raw))}
-            img={project.media && project.media[0].file.url}
+            img={project.media && project.media[0]}
+            alt={project.media[0].description}
             links={[
               { title: project.gitHubLinkTitle, to: project.gitHubLink },
               { title: project.demoLinkTitle, to: project.demoLink },
@@ -34,13 +35,11 @@ export default Project
 
 export const pageQuery = graphql`
   query ProjectPage($slug: String!) {
-    contentfulProject(slug: { eq: $slug }) {
+    project: contentfulProject(slug: { eq: $slug }) {
       slug
       title
       media {
-        file {
-          url
-        }
+        gatsbyImageData
       }
       gitHubLinkTitle
       gitHubLink
@@ -52,6 +51,16 @@ export const pageQuery = graphql`
     }
   }
 `
+
 export const Head = ({ data }) => {
-  return <title>{data.contentfulProject.title}</title>
+  const project = data.project
+  return (
+    <MetaData
+      title={project.title}
+      description={
+        documentToReactComponents(JSON.parse(project.body.raw))[0].props
+          .children[0]
+      }
+    />
+  )
 }
