@@ -101,14 +101,14 @@ body {
 }
 
 #hero {
-  @apply py-0 md:py-24;
+  @apply h-[calc(100vh-53px)] w-[calc(100vw-32px)] flex flex-col justify-center mx-4 md:mx-auto lg:h-fit md:grid lg:py-24 lg:w-full lg:mx-0;
   .hero-text {
     @apply row-start-1 lg:h-auto flex flex-col justify-center lg:static col-start-bleed col-end-bleed lg:col-end-half lg:row-start-auto;
   }
   .hero-image {
     @apply hidden w-full object-cover gatsby-image-index 
     col-span-full
-lg:inline lg:h-[500px] row-start-1  lg:col-start-9 lg:col-end-fullbleed lg:rounded-s-8xl;
+    lg:inline lg:h-[500px] row-start-1  lg:col-start-9 lg:col-end-fullbleed     lg:rounded-s-8xl;
   }
 }
 

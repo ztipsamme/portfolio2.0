@@ -7,7 +7,7 @@ const Button = (props) => {
   const { children, onClick } = props
   const isPrevious = children === 'previous'
   return (
-    <button value={children} className="" onClick={onClick}>
+    <button value={children} onClick={onClick} aria-label={children}>
       <FontAwesomeIcon
         icon={isPrevious ? faAngleLeft : faAngleRight}
         className={`icon`}

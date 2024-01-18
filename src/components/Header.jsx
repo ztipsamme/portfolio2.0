@@ -44,7 +44,7 @@ const Header = () => {
         >
           Emma Spitz
         </Link>
-        <button onClick={toggleMenu}>
+        <button onClick={toggleMenu} aria-label={contentfulMenuComponent.title}>
           <FontAwesomeIcon
             icon={isMenuOpen ? faX : faBars}
             className="inline md:hidden h-4 aspect-square py-4 pl-8"
@@ -54,7 +54,7 @@ const Header = () => {
 
       <ul
         className={`${isMenuOpen ? 'absolute' : 'hidden'}
-      w-full h-fit bg-pine md:flex flex-col px-4 pb-4 md:w-min md:h-min md:bg-transparent md:flex-row md:gap-x-4 md:px-0 md:pb-0`}
+      w-full h-fit bg-spring dark:bg-pine md:flex flex-col px-4 pb-4 md:w-min md:h-min md:bg-transparent md:flex-row md:gap-x-4 md:px-0 md:pb-0`}
       >
         {contentfulMenuComponent.menuItems.map((i) => (
           <li key={i.id} className="nav-link w-full">
