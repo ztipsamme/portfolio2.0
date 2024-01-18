@@ -38,15 +38,6 @@ body {
   @apply h-12 aspect-square;
 }
 
-.has-submenu {
-  > ul {
-    @apply md:hidden;
-  }
-  &:hover ul {
-    @apply md:block;
-  }
-}
-
 .section-header {
   @apply text-sectionHeader mb-8;
 }
@@ -112,10 +103,12 @@ body {
 #hero {
   @apply py-0 md:py-24;
   .hero-text {
-    @apply row-start-1 h-screen md:h-auto flex flex-col justify-center md:static col-start-bleed col-end-bleed md:col-end-half md:row-start-auto;
+    @apply row-start-1 lg:h-auto flex flex-col justify-center lg:static col-start-bleed col-end-bleed lg:col-end-half lg:row-start-auto;
   }
   .hero-image {
-    @apply bg-cover bg-center w-screen h-screen md:static md:w-auto md:h-auto md:rounded-s-8xl col-start-fullbleed md:col-start-half col-end-fullbleed row-start-1;
+    @apply hidden w-full object-cover gatsby-image-index 
+    col-span-full
+lg:inline lg:h-[500px] row-start-1  lg:col-start-9 lg:col-end-fullbleed lg:rounded-s-8xl;
   }
 }
 

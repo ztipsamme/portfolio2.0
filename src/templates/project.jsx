@@ -1,8 +1,7 @@
 import React from 'react'
-import { Section } from '../components/UI'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Card, Layout, MetaData } from '../components'
+import { Card, Layout, MetaData, Section } from '../components'
 
 const Project = ({ data }) => {
   const {

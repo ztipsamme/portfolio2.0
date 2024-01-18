@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { BreakpointContext } from '../context/context'
 import { Link, graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { getIcon } from '../helpers'
@@ -52,7 +51,6 @@ const RenderHeroText = (props) => {
 }
 
 const IndexPage = ({ data }) => {
-  const { isMobile } = useContext(BreakpointContext)
   const { mainSection } = data.page
 
   return (
@@ -61,10 +59,11 @@ const IndexPage = ({ data }) => {
         <GatsbyImage
           image={getImage(mainSection.image)}
           alt={mainSection.image.description}
-          className="h-screen w-full md:h-[500px] col-start-fullbleed  md:col-start-half col-end-fullbleed row-start-1 md:rounded-s-8xl object-cover gatsby-image-index"
+          class="hero-image"
         />
+
         <div className="hero-text">
-          <div className={`p-8 rounded-3xl ${isMobile && 'glass shadow'}`}>
+          <div>
             <RenderHeroText
               text={
                 documentToReactComponents(JSON.parse(mainSection.body.raw))[0]
@@ -90,12 +89,12 @@ const IndexPage = ({ data }) => {
                 </a>
               ))}
             </span>
-            <span className="flex flex-wrap lg:flex-nowrap gap-x-8 gap-y-2 mt-8">
+            <span className="flex flex-wrap lg:flex-nowrap md:gap-x-4 gap-y-2 mt-8">
               {mainSection.cta.map((cta, index) => (
                 <Link
                   key={cta.id}
                   to={cta.href}
-                  className={`btn btn-lg  w-full shadow-lg ${
+                  className={`btn btn-lg shadow-lg w-full md:w-fit ${
                     index === 0
                       ? 'bg-pine border-pine text-white dark:bg-white dark:border-white dark:text-pine'
                       : 'border-black dark:border-white dark:text-white'

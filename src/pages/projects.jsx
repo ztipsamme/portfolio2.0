@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Section } from '../components/UI'
+import { Section } from '../components'
 import { graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { Card, Layout, MetaData } from '../components'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 const Projects = ({ data }) => {
   const [selectedCategorys, setSelectedCategorys] = useState([])
@@ -75,8 +74,6 @@ const Projects = ({ data }) => {
   useEffect(() => {
     categoryInUse()
   }, [])
-
-  console.log(selectedCategorys)
 
   return (
     <Layout>
