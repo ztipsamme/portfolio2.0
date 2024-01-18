@@ -1,5 +1,5 @@
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import React, { Fragment } from 'react'
+import React from 'react'
 import Slider from './Slider'
 
 const Card = (props) => {

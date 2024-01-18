@@ -1,7 +1,7 @@
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 const Button = (props) => {
   const { children, onClick } = props
