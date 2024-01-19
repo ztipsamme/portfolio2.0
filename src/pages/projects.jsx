@@ -114,7 +114,7 @@ const Projects = ({ data }) => {
                 links={[
                   { title: i.gitHubLinkTitle, to: i.gitHubLink },
                   { title: i.demoLinkTitle, to: i.demoLink },
-                  { title: 'Läs mer', to: i.slug },
+                  { title: i.readMoreTitle, to: i.slug },
                 ]}
               />
             </li>
