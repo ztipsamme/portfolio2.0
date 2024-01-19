@@ -77,6 +77,8 @@ const About = ({ data }) => {
     JSON.parse(extraSection[0].body.raw)
   )[1].props.children
 
+  console.log(extraSection)
+
   return (
     <Layout>
       <Section className="content bg-peach dark:bg-beige dark:text-black">
@@ -188,6 +190,9 @@ export const query = graphql`
           }
           title
           subheading
+          page {
+            slug
+          }
         }
         ... on ContentfulSectionComponent {
           id
@@ -200,6 +205,9 @@ export const query = graphql`
             description {
               raw
             }
+          }
+          page {
+            slug
           }
         }
       }

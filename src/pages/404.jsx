@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, MetaData, Section } from '../components'
+import { Layout, MetaData, Search, Section } from '../components'
 import { Link, graphql } from 'gatsby'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
@@ -23,6 +23,7 @@ const NotFoundPage = ({ data }) => {
             {backToHome.title}
           </Link>
         </div>
+        <Search />
       </Section>
     </Layout>
   )
@@ -31,7 +32,7 @@ const NotFoundPage = ({ data }) => {
 export default NotFoundPage
 
 export const query = graphql`
-  query {
+  query NotFound {
     page: contentfulPage(
       contentful_id: { eq: "4XDWCwfYeCP0lxKwkL5PRt" }
       node_locale: { eq: "sv-SE" }
